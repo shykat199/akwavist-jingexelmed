@@ -11,6 +11,7 @@ use App\Utils\TransactionUtil;
 use App\Utils\ProductUtil;
 use Illuminate\Http\Request;
 use App\Transaction;
+use Mpdf\Mpdf;
 
 class SalesCommissionAgentController extends Controller
 {
@@ -478,5 +479,28 @@ class SalesCommissionAgentController extends Controller
                 'msg' => __('messages.something_went_wrong'),
             ]);
         }
+    }
+    public function printPdf($id,Request $request)
+    {
+        $business_id = $request->session()->get('user.business_id');
+        $commissionPayments = CommissionPayment::where('business_id', $business_id)
+            ->where('transaction_id', $id)
+            ->where('user_id',$request->get('user_id'))
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $html = view('payment.pdf', [
+            'commissionPayments' => $commissionPayments,
+            'id' => $id
+        ])->render();
+
+        $mpdf = new Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+        ]);
+
+        $mpdf->WriteHTML($html);
+
+        return $mpdf->Output('commission-payments-'.$id.'.pdf', 'I');
     }
 }

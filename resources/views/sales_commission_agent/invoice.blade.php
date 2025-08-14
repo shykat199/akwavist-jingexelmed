@@ -445,4 +445,12 @@
             });
         }
     </script>
+    <script>
+        $(document).on('click', '.print-payment', function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var url = '/print-payment/' + id + '?user_id=' + `{{$user->id}}`;
+            window.open(url, '_blank');
+        });
+    </script>
 @endsection

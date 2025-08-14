@@ -350,6 +350,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('sales-commission-agents/invoice/edit-payment/{id}', [SalesCommissionAgentController::class,'editPayment'])->name('invoice.edit-payment');
     Route::post('sales-commission-agents/invoice/update-payment/{id}', [SalesCommissionAgentController::class,'updatePayment'])->name('invoice.update-payment');
     Route::post('update/commission-value', [SalesCommissionAgentController::class,'updateCommissionById'])->name('invoice.update-commission-value');
+    Route::get('print-payment/{id}', [SalesCommissionAgentController::class, 'printPdf']);
 
     //Sales Commission Agent
     Route::resource('sales-commission-agents', SalesCommissionAgentController::class);
