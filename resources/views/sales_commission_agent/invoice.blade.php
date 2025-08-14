@@ -119,34 +119,35 @@
 @endsection
 @section('javascript')
     <script>
-        var id = '{{$user->id}}';
-        var userId = '{{$user->id}}';
+        var id = `{{$user->id}}`
+        var userId = `{{$user->id}}`
         var maxPay = 0;
-        $(document).ready( function(){
+        $(document).ready(function() {
             initDatePicker();
-            $(document).on('click','.view-payment',function(e){
+            $(document).on('click', '.view-payment', function(e) {
                 e.preventDefault();
                 var id = $(this).data('id');
                 $.ajax({
-                    url:'{{route('invoice.view-payment')}}',
-                    method:'POST',
-                    data:{
-                        '_token':'{{csrf_token()}}',
-                        id:id,
-                        user_id:userId,
+                    url: `{{route('invoice.view-payment')}}`,
+                    method: 'POST',
+                    data: {
+                        '_token': `{{csrf_token()}}`,
+                        id: id,
+                        user_id: userId,
                     },
-                    success:function(response){
+                    success: function(response) {
                         $('#payment-table-body').html(response.html);
-                        $('#view-payment-modal').modal('show')
-                    }
-                })
-            })
+                        $('#view-payment-modal').modal('show');
+                    },
+                });
+            });
         });
+
         var sales_commission_agent_table = $('#sales_commission_agent_table_invoice').DataTable({
             processing: true,
             serverSide: true,
-            fixedHeader:false,
-            ajax: '/sales-commission-agents/invoice/'+id,
+            fixedHeader: false,
+            ajax: '/sales-commission-agents/invoice/' + id,
             columns: [
                 { data: 'invoice_no' },
                 { data: 'final_total' },
@@ -157,7 +158,55 @@
                 { data: 'action' },
             ],
         });
-        $(document).on('click','.add-payment',function(e){
+
+        $('#sales_commission_agent_table_invoice').on('dblclick', 'td', function () {
+            var cell = $(this);
+            var columnIndex = sales_commission_agent_table.cell(this).index().column;
+
+            if (columnIndex !== 2) return;
+
+            var oldValue = cell.text().trim();
+
+            cell.html('<input type="number" min="0" max="100" step="0.01" class="form-control" value="' + oldValue + '" />');
+            var input = cell.find('input').focus();
+
+            input.on('blur keydown', function (e) {
+                if (e.type === 'blur' || e.key === 'Enter') {
+                    var newValue = $(this).val();
+
+                    if (newValue !== oldValue) {
+                        $.ajax({
+                            url: '{{ route("invoice.update-commission-value") }}',
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                userId: userId,
+                                value: newValue
+                            },
+                            success: function (res) {
+                                if (res.success) {
+                                    toastr.success(res.message);
+                                    cell.text(newValue);
+                                    sales_commission_agent_table.ajax.reload(null, false);
+                                } else {
+                                    toastr.error('Failed to update commission');
+                                    cell.text(oldValue);
+                                }
+                            },
+                            error: function () {
+                                toastr.error('Error updating commission');
+                                cell.text(oldValue);
+                            }
+                        });
+                    } else {
+                        cell.text(oldValue);
+                    }
+                }
+            });
+        });
+
+
+        $(document).on('click', '.add-payment', function(e) {
             e.preventDefault();
             var id = $(this).data('id');
             maxPay = parseFloat($(this).data('max')).toFixed(2);
@@ -213,18 +262,18 @@
                                             <textarea class="form-control" name="note"></textarea>
                                         </div>
                                     </div>
-                                </div>`)
-            $('#add-payment-modal').modal('show')
+                                </div>`);
+            $('#add-payment-modal').modal('show');
             $('.paid_on').datetimepicker({
                 format: moment_date_format + ' ' + moment_time_format,
                 ignoreReadonly: true,
             });
         });
 
-        $('#add-payment-modal').on('shown.bs.modal', function () {
+        $('#add-payment-modal').on('shown.bs.modal', function() {
             // Ensure only one event binding occurs
             $('form#payment-form')
-                .submit(function (e) {
+                .submit(function(e) {
                     e.preventDefault();
                 })
                 .validate({
@@ -232,36 +281,36 @@
                         amount: {
                             required: true,
                             min: 0,
-                        }
+                        },
                     },
                     messages: {
                         amount: {
-                            required: "The amount is required.",
-                            min: "The amount must be greater than 0.",
-                            max: "The amount must not exceed the maximum allowed."
-                        }
+                            required: 'The amount is required.',
+                            min: 'The amount must be greater than 0.',
+                            max: 'The amount must not exceed the maximum allowed.',
+                        },
                     },
-                    submitHandler: function (form) {
+                    submitHandler: function(form) {
                         var data = $(form).serialize();
                         $.ajax({
                             method: $(form).attr('method'),
                             url: $(form).attr('action'),
                             dataType: 'json',
                             data: data,
-                            success: function (result) {
+                            success: function(result) {
                                 if (result.success) {
                                     $('#add-payment-modal').modal('hide');
                                     toastr.success(result.msg);
-                                    $("form#payment-form").validate().resetForm();
+                                    $('form#payment-form').validate().resetForm();
                                     sales_commission_agent_table.ajax.reload();
-                                    $('form#payment-form button').prop('disabled',false)
+                                    $('form#payment-form button').prop('disabled', false);
                                 } else {
                                     toastr.error(result.msg);
-                                    $('form#payment-form button').prop('disabled',false)
+                                    $('form#payment-form button').prop('disabled', false);
                                 }
-                            }
+                            },
                         });
-                    }
+                    },
                 });
         });
         $(document).on('click', '.delete_payment_button', function(e) {
@@ -293,18 +342,18 @@
                 }
             });
         });
-        $(document).on('click','.edit-payment',function(e){
+        $(document).on('click', '.edit-payment', function(e) {
             e.preventDefault();
             $('#view-payment-modal').modal('hide');
             var href = $(this).data('href');
-            var update = $(this).data('update')
+            var update = $(this).data('update');
             $.ajax({
                 method: 'GET',
                 url: href,
                 success: function(result) {
                     if (result.success == true) {
                         var data = result.data;
-                        $('#edit-payment-form').attr('action',update)
+                        $('#edit-payment-form').attr('action', update);
                         $('#edit-add-payment').html(`<div class="row">
                                     <input type="hidden" name="id" value="${data.id}">
                                     <div class="col-lg-6 col-12">
@@ -356,17 +405,17 @@
                                             <textarea class="form-control" name="note">${data.note}</textarea>
                                         </div>
                                     </div>
-                                </div>`)
+                                </div>`);
                         initDatePicker();
-                        $('#edit-payment-modal').modal('show')
+                        $('#edit-payment-modal').modal('show');
                     } else {
                         toastr.error(result.msg);
                     }
-                    $('#edit-payment-form button').prop('disabled',false)
+                    $('#edit-payment-form button').prop('disabled', false);
                 },
             });
         });
-        $('#edit-payment-form').on('submit',function(e){
+        $('#edit-payment-form').on('submit', function(e) {
             e.preventDefault();
             var data = $(this).serialize();
             $.ajax({
@@ -374,7 +423,7 @@
                 url: $(this).attr('action'),
                 dataType: 'json',
                 data: data,
-                success: function (result) {
+                success: function(result) {
                     if (result.success) {
                         $('#edit-payment-modal').modal('hide');
                         toastr.success(result.msg);
@@ -382,13 +431,13 @@
                     } else {
                         toastr.error(result.msg);
                     }
-                    $('#edit-payment-form button').prop('disabled',false)
-                }
+                    $('#edit-payment-form button').prop('disabled', false);
+                },
             });
-        })
+        });
     </script>
     <script>
-        function initDatePicker(){
+        function initDatePicker() {
             $('.paid_on').datetimepicker({
                 format: moment_date_format + ' ' + moment_time_format,
                 ignoreReadonly: true,

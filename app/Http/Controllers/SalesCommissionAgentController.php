@@ -131,6 +131,7 @@ class SalesCommissionAgentController extends Controller
                     if ($balance > 0){
                         $html .='<a href="#" data-max="'.$balance.'" data-id="'.$query->id.'" class="tw-dw-btn tw-dw-btn-xs tw-dw-btn-outline add-payment tw-dw-btn-accent"><i class="fa fa-plus"></i>Add Payment</a>';
                     }
+                    $html .='<a href="#"  data-id="'.$query->id.'" class="tw-dw-btn tw-dw-btn-xs tw-dw-btn-outline print-payment  tw-dw-btn-warning"><i class="fa fa-print"></i>Print Payment</a>';
                     $html .='<a href="#"  data-id="'.$query->id.'" class="tw-dw-btn tw-dw-btn-xs tw-dw-btn-outline view-payment  tw-dw-btn-primary"><i class="fa fa-eye"></i>View Payment</a>';
                     return $html;
                 })->editColumn("invoice_no", function ($row) {
@@ -388,6 +389,30 @@ class SalesCommissionAgentController extends Controller
                 'msg' => __('messages.something_went_wrong'),
             ]);
         }
+    }
+
+    public function updateCommissionById(Request $request)
+    {
+        $user = User::findOrFail($request->userId);
+        if (empty($user)){
+            return response()->json([
+                'success' => false,
+                'message' => __('User not found'),
+            ]);
+        }
+
+        $user->cmmsn_percent = (float) $request->value;
+        try {
+            $user->save();
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => __('Sales commission updated successfully!'),
+            'percentage' => $request->value,
+        ]);
     }
     public function deletePayment($id)
     {
