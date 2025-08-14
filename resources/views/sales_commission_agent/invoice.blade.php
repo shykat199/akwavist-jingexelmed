@@ -113,6 +113,7 @@
                 </div>
             </div>
         </div>
+        <div class="commission_agent_modal modal fade" tabindex="-1" role="dialog"></div>
     </section>
 
 
