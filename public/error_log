@@ -1,0 +1,21 @@
+[21-Oct-2024 14:28:08 Asia/Manila] PHP Fatal error:  Out of memory (allocated 1545596928 bytes) (tried to allocate 16777216 bytes) in /home/akwavist/public_html/jing.exelmed.ph/vendor/laravel/framework/src/Illuminate/Http/JsonResponse.php on line 87
+[26-Oct-2024 10:49:21 Asia/Manila] PHP Fatal error:  Out of memory (allocated 1551892480 bytes) (tried to allocate 20480 bytes) in /home/akwavist/public_html/jing.exelmed.ph/vendor/laravel/framework/src/Illuminate/Collections/Arr.php on line 118
+[26-Oct-2024 10:49:35 Asia/Manila] PHP Fatal error:  Out of memory (allocated 1551892480 bytes) (tried to allocate 12288 bytes) in /home/akwavist/public_html/jing.exelmed.ph/vendor/laravel/framework/src/Illuminate/Collections/Arr.php on line 116
+[26-Oct-2024 10:49:36 Asia/Manila] PHP Fatal error:  Out of memory (allocated 1551892480 bytes) (tried to allocate 20480 bytes) in /home/akwavist/public_html/jing.exelmed.ph/vendor/laravel/framework/src/Illuminate/Collections/Arr.php on line 118
+[26-Oct-2024 10:49:38 Asia/Manila] PHP Fatal error:  Out of memory (allocated 1551892480 bytes) (tried to allocate 12288 bytes) in /home/akwavist/public_html/jing.exelmed.ph/vendor/laravel/framework/src/Illuminate/Collections/Arr.php on line 116
+[26-Oct-2024 10:49:38 Asia/Manila] PHP Fatal error:  Out of memory (allocated 1551892480 bytes) (tried to allocate 12288 bytes) in /home/akwavist/public_html/jing.exelmed.ph/vendor/laravel/framework/src/Illuminate/Collections/Arr.php on line 116
+[26-Oct-2024 10:49:39 Asia/Manila] PHP Fatal error:  Out of memory (allocated 1551892480 bytes) (tried to allocate 12288 bytes) in /home/akwavist/public_html/jing.exelmed.ph/vendor/laravel/framework/src/Illuminate/Collections/Arr.php on line 116
+[26-Oct-2024 11:20:16 Asia/Manila] PHP Fatal error:  Out of memory (allocated 1551892480 bytes) (tried to allocate 12288 bytes) in /home/akwavist/public_html/jing.exelmed.ph/vendor/laravel/framework/src/Illuminate/Collections/Arr.php on line 116
+[26-Oct-2024 11:20:58 Asia/Manila] PHP Fatal error:  Out of memory (allocated 1551892480 bytes) (tried to allocate 12288 bytes) in /home/akwavist/public_html/jing.exelmed.ph/vendor/laravel/framework/src/Illuminate/Collections/Arr.php on line 116
+[28-Nov-2024 20:22:17 UTC] PHP Warning:  Undefined variable $app in /home/akwavist/public_html/jing.exelmed.ph/bootstrap/app.php on line 2
+[28-Nov-2024 20:22:17 UTC] PHP Fatal error:  Uncaught Error: Call to a member function middleware() on null in /home/akwavist/public_html/jing.exelmed.ph/bootstrap/app.php:2
+Stack trace:
+#0 /home/akwavist/public_html/jing.exelmed.ph/public/index.php(47): require_once()
+#1 {main}
+  thrown in /home/akwavist/public_html/jing.exelmed.ph/bootstrap/app.php on line 2
+[28-Nov-2024 20:22:21 UTC] PHP Warning:  Undefined variable $app in /home/akwavist/public_html/jing.exelmed.ph/bootstrap/app.php on line 2
+[28-Nov-2024 20:22:21 UTC] PHP Fatal error:  Uncaught Error: Call to a member function middleware() on null in /home/akwavist/public_html/jing.exelmed.ph/bootstrap/app.php:2
+Stack trace:
+#0 /home/akwavist/public_html/jing.exelmed.ph/public/index.php(47): require_once()
+#1 {main}
+  thrown in /home/akwavist/public_html/jing.exelmed.ph/bootstrap/app.php on line 2
